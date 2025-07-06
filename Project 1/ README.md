@@ -36,3 +36,12 @@ Run the script in PowerShell:
 
 ```powershell
 .\FotoSorter.ps1
+
+## 📦 Dependencies
+This script requires ExifTool to extract metadata from media files.
+Make sure the exiftool(-k).exe file is located in the same folder as the PowerShell script for it to function properly.
+Rename exiftool(-k).exe --> exiftool.exe before use.
+
+
+
+
