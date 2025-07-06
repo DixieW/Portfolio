@@ -14,17 +14,8 @@ Dixie Wanner
 Het pad naar de hoofdmap die de te scannen bestanden bevat.
 
 .EXAMPLE
-# Voorbeeld 1: Organiseer foto's en video's in submappen op basis van jaar en maand.
-.\OrganiseerFotosEnVideos.ps1 -SourceFolder "C:\Path\To\MainFolder"
-
-# Voorbeeld 2: Sorteren van bestanden in de 'GEEN EXIF' map
-.\OrganiseerFotosEnVideos.ps1 -SourceFolder "C:\Path\To\MainFolder"
-
-# Voorbeeld 3: Zoek naar duplicaten in de bronmap en zet deze in een losse folder "Duplicates"
-.\OrganiseerFotosEnVideos.ps1 -SourceFolder "C:\Path\To\MainFolder"
-
-# Voorbeeld 4: Corrigeer bestandsnamen, haalt tekens in de naamgeving van de bestanden weg die het sorteer proces in de weg kunnen zitten. '[]{},.()/\|'
-.\OrganiseerFotosEnVideos.ps1 -SourceFolder "C:\Path\To\MainFolder"
+Voorbeeld : Organiseer foto's en video's in submappen op basis van jaar en maand.
+.\OrganiseerFotosEnVideos.ps1 
 #>
 
 
@@ -117,7 +108,7 @@ function Find-ExifTool {
     }
 }
 
-# Function to calculate the hash of a file
+# Functie voor het berekenen van een hash van een bestand.
 function Calculate-FileHash {
     param ([string]$filePath)
 
@@ -134,41 +125,6 @@ function Calculate-FileHash {
         $errorMessage = $_.Exception.Message
         Write-Host "Fout bij het berekenen van de hash voor bestand $($filePath): $errorMessage" -ForegroundColor Red
         return $null
-    }
-}
-
-# Controleer of PowerShell 7 of hoger aanwezig is
-function Check-PowerShell7 {
-    $pwshCommand = Get-Command -Name 'pwsh' -ErrorAction SilentlyContinue
-    if ($pwshCommand) {
-        $pwshVersion = $pwshCommand.Version
-    } else {
-        $pwshVersion = $null
-    }
-
-    if ($pwshVersion -and $pwshVersion.Major -ge 7) {
-        Write-Host "PowerShell 7 of hoger is geïnstalleerd: $pwshVersion" -ForegroundColor Green
-    } else {
-        Write-Host "PowerShell 7 of hoger is niet geïnstalleerd. Installeren..." -ForegroundColor Yellow
-
-        # Download en installeer PowerShell 7 of hoger
-        $installerPath = "$env:TEMP\PowerShell-7.2.3-win-x64.msi"
-        Invoke-WebRequest -Uri "https://github.com/PowerShell/PowerShell/releases/download/v7.2.3/PowerShell-7.2.3-win-x64.msi" -OutFile $installerPath
-        Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerPath /quiet" -Wait
-
-        # Controleer opnieuw of PowerShell 7 of hoger nu is geïnstalleerd
-        $pwshCommand = Get-Command -Name 'pwsh' -ErrorAction SilentlyContinue
-        if ($pwshCommand) {
-            $pwshVersion = $pwshCommand.Version
-        } else {
-            $pwshVersion = $null
-        }
-
-        if ($pwshVersion -and $pwshVersion.Major -ge 7) {
-            Write-Host "PowerShell 7 of hoger is succesvol geïnstalleerd: $pwshVersion" -ForegroundColor Green
-        } else {
-            Write-Host "PowerShell 7 of hoger installatie is mislukt." -ForegroundColor Red
-        }
     }
 }
 
@@ -276,7 +232,7 @@ $form.Controls.Add($buttonSortNoExif)
 $buttonSortByDateInTitle = CreateButton "Sorteer Datum in Titel" 10 220 150 40
 $form.Controls.Add($buttonSortByDateInTitle)
 
-# Define variable to hold the selected folder
+# Creeër variable voor geselecteerde folder
 $global:SourceFolder = ""
 
 # Define button click actions
@@ -313,7 +269,7 @@ $buttonSort.Add_Click({
         # Zoek naar ExifTool.exe
         $exifToolPath = Find-ExifTool
 
-        # Check if ExifTool exists
+        # Controleer of de exiftool aanwezig is
         if (-not $exifToolPath) {
             [System.Windows.Forms.MessageBox]::Show("ExifTool (exiftool.exe) is niet gevonden. Plaats exiftool.exe in dezelfde map als dit script of voeg het toe aan de PATH omgevingsvariabele.", "Fout", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
             exit
@@ -321,7 +277,7 @@ $buttonSort.Add_Click({
             Write-Host "ExifTool gevonden op: $exifToolPath"
         }
 
-        # Create the 'GEEN EXIF' folder
+        # Creeër the 'GEEN EXIF' folder
         $noExifFolder = Join-Path -Path $SourceFolder -ChildPath "GEEN EXIF"
         if (-not (Test-Path -Path $noExifFolder)) {
             New-Item -Path $noExifFolder -ItemType Directory   | Out-Null 
