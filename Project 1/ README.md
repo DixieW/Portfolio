@@ -36,6 +36,7 @@ Run the script in PowerShell:
 
 ```powershell
 .\FotoSorter.ps1
+```
 
 ## 📦 Dependencies
 This script requires ExifTool to extract metadata from media files.
