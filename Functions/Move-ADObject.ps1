@@ -19,22 +19,22 @@ function New-LocationString {
     param (
 
         [Hashtable]$COLocations = @{
-            CO001 = "OU=CO001,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            CO002 = "OU=CO002,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            CO003 = "OU=CO003,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            CO004 = "OU=CO004,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            CO005 = "OU=CO005,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
+            CO001 = "OU=CO001,OU="
+            CO002 = "OU=CO002,OU="
+            CO003 = "OU=CO003,OU="
+            CO004 = "OU=CO004,OU="
+            CO005 = "OU=CO005,OU="
         },
 
         [hashtable]$RULocations = @{
-            RU269 = "OU=RU269,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU285 = "OU=RU285,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU460 = "OU=RU460,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU485 = "OU=RU485,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU490 = "OU=RU490,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU663 = "OU=RU663,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU710 = "OU=RU710,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
-            RU726 = "OU=RU726,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
+            RU269 = "OU=RU269,OU="
+            RU285 = "OU=RU285,OU="
+            RU460 = "OU=RU460,OU="
+            RU485 = "OU=RU485,OU="
+            RU490 = "OU=RU490,OU="
+            RU663 = "OU=RU663,OU="
+            RU710 = "OU=RU710,OU="
+            RU726 = "OU=RU726,OU="
         },
 
         [hashtable]$SubLocationName = @{
@@ -179,7 +179,7 @@ function Move-ObjectsToNewLocation {
         [Parameter()]
         [PSObject] $ToLocation = (New-LocationString -PrimaryLocation $PrimaryDestinationLocation -SubLocation $SubDestinationLocation),
         [parameter()]
-        [string] $Server = "Wes07pwadc01",
+        [string] $Server = "" # DOmain Controller,
         [parameter()]
         [switch] $laptop
         )
@@ -207,5 +207,3 @@ function Move-ObjectsToNewLocation {
 
 }
 
-### EXAMPLE ### Move-ObjectsToNewLocation -PrimaryLocation CO001 -SubLocation 001 -PrimaryDestinationLocation CO002 -SubDestinationLocation 002
-Move-ObjectsToNewLocation -PrimaryLocation RU285 -SubLocation 011 -PrimaryDestinationLocation RU285 -SubDestinationLocation 001 -laptop
