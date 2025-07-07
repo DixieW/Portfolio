@@ -16,7 +16,3 @@
 
     return $ActiveDevices
 }
-
-
-Test-Connection N301415
-
