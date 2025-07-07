@@ -1,0 +1,77 @@
+﻿########
+#
+#Copyright:     Free to use, please leave this header intact
+#Author:        Jasper Timmermans (OGD), Dixie Wanner (OGD)
+#Company:       OGD (http://www.ogd.nl)
+##Purpose:      Link an existing Group Policy to Specified Organizational Units (using a filter)
+########
+########
+
+########
+#Changelog:
+########
+#V1.0: First draft
+<#v2.0: Added parameters 23-10-24 - Dixie Wanner
+        Cleaned up comments       - Dixie Wanner
+#>
+#region Parameters
+function LinkOU() {
+
+    [cmdletbinding()]
+    param(
+        [Parameter(Mandatory, ParameterSetName = "ClientLink")]
+        [Parameter(Mandatory, ParameterSetName = "UserLink")]
+        [string]$GPOName,
+
+        [Parameter(Mandatory, ParameterSetName = "ClientLink")]
+        [switch]$OUFilterClient,
+
+        [Parameter(Mandatory, ParameterSetName = "UserLink")]
+        [switch]$OUFilterUser
+    )
+
+    switch ($PSCmdlet.ParameterSetName) {
+        "ClientLink" {
+            $OUFilter = "OU=Clients*"
+            Write-Output "OU Filter for Clients: $OUFilter"
+        }
+        "UserLink"{
+            $OUFilter = "OU=Users,OU=Accounts*"
+            Write-Output "OU Filter for Users: $OUFilter"
+        }
+        Default {
+            Write-Output "Invalid Parameter Set"
+            break
+        }
+    }
+
+    #endregion
+
+    #region PREPERATION
+    $Domain = "intern.ubnet.nl"
+    $OUList = Get-ADOrganizationalUnit -SearchBase "OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl" -filter * | Where-Object { $_.Distinguishedname -like $OUFilter }
+
+    #endregion
+
+    #region EXECUTION
+    Try {
+        ForEach ($OU in $OUList) {
+            New-GPLink -Name $GPOName -Target $OU -Domain $Domain -LinkEnabled Yes -ErrorAction Continue
+        }
+        write-host "De GPO '$GPOName' is gekoppeld aan de opgegeven OU's" -ForegroundColor Green
+    }
+    Catch {
+        Write-Warning "Error message: $($_.Exception.Message)"
+    }
+
+    #endregion
+}
+
+##### Voorbeelden #####
+
+# Client links
+# LinkOU -GPOName "Test - WKS – Win10 – Disable Edge Autofill (1.0)" -OUFilterClient
+
+# User Links
+# LinkOU -GPOName "USR - Win10 - Browser Extensions (v1.2) Passwordstate" -OUFilterUser
+
