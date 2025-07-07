@@ -1,23 +1,15 @@
-﻿<#
-
-    Let op! Indien je dit script wilt gebruiken zul je mogelijk je High privilege rechten moeten activeren.
-    Dit is vermoedelijk éénmalig.
-
-#>
-
-
 function Add-CloudDeviceMember {
 
     <#
     .SYNOPSIS
         Add users to clouddevice security group.
     .DESCRIPTION
-        Use userprincipalname to add user to "All Autopilot Users" and give access to Catonetworks through Active Directory "Appl_Cato_Client_P".
+        Use userprincipalname to add user to "<Name of Entra ID group>" and give access to FullTunnel through Active Directory "<Security Group>".
     .NOTES
         This function expects a list of email adresses.
         This function works with version powershell 7.
     .EXAMPLE
-        Add-CloudDeviceMember -userList "dixie.wanner@unive.nl"
+        Add-CloudDeviceMember -userList "John.Doe@domain.com"
     #>
 
     [cmdletbinding()]
@@ -25,7 +17,7 @@ function Add-CloudDeviceMember {
         [Parameter(Mandatory=$true, HelpMessage="Enter email adress of user.")]
         [Array]$userList,
         [parameter()]
-        [string]$server = "Wes07pwadc01"
+        [string]$server = "<Domain Controler>"
     )
     # Connecting to Univé Tenant
     $connected = Connect-MgGraph -Scopes "User.Read.All", "Group.ReadWrite.All", "Directory.Read.All" | Out-Null
@@ -48,7 +40,7 @@ function Add-CloudDeviceMember {
     }
 }
 
-### Example ### Add-CloudDeviceMember -userList "dixie.wanner@unive.nl"
+### Example ### Add-CloudDeviceMember -userList "John.Doe@Domain.com"
 function convert-SAMAccountNameUsersToEmail {
 
     <#
@@ -71,13 +63,3 @@ function convert-SAMAccountNameUsersToEmail {
     }
     return $EmailaddressesToAdd
 }
-
-$usersToAdd = @(
-    "helingr"
-)
-
-$user = convert-SAMAccountNameUsersToEmail -arrayUsers $usersToAdd
-Connect-AzAccount -Subscription "unive-s05-pc-appservices-prdacc"
-Add-CloudDeviceMember -userList $user
-
-Clear-Variable usersToAdd, user
