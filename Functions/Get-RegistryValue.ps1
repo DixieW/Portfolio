@@ -117,14 +117,5 @@ function DeviceStatus() {
     return $DevicesOnline
 }
 
-$DevicesToTest = get-content "E:\Share\Script\DixieW\Scripts\SourceFiles\ComputerList.txt"
-$DevicesToCheck = DeviceStatus($DevicesToTest)
-
-if($DevicesToCheck){
-    Get-RegistryValue -computerToCheck $DevicesToCheck -registrySUBPath "Software\Policies\Google\Chrome" -registryValue "BlockThirdPartyCookies"
-}else{
-    Write-warning "No Devices able to connect."
-}
-
 
 
