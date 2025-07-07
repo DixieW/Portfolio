@@ -4,12 +4,12 @@
     .SYNOPSIS
         Add users to clouddevice security group.
     .DESCRIPTION
-        Use userprincipalname to add user to "INT_Limit_Cookies_CRM_Website".
+        Use userprincipalname to add user to "<Entra ID group name>".
     .NOTES
         This function expects a list of email adresses.
         This function works with version powershell 7.
     .EXAMPLE
-        Add-UsersToCloudSecurityGroup -UserList "dixie.wanner@unive.nl" -SecurityGroup "NameOfYourSecurityGroupDisplayname"
+        Add-UsersToCloudSecurityGroup -UserList "John.Doe@Domain.com" -SecurityGroup "NameOfYourSecurityGroupDisplayname"
     #>
 
     [cmdletbinding()]
@@ -19,9 +19,9 @@
         [parameter(Mandatory=$true, HelpMessage="Enter Security Group DisplayName.")]
         [string]$SecurityGroup,
         [parameter()]
-        [string]$server = "Wes07pwadc01"
+        [string]$server = "" # domain controller
     )
-    # Connecting to Univé Tenant
+    # Connecting to Tenant
     Connect-MgGraph -Scopes "User.Read.All", "Group.ReadWrite.All", "Directory.Read.All"
 
     $groupID = Get-MgGroup -Filter "displayName eq '$SecurityGroup'"
