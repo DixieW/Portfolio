@@ -7,7 +7,7 @@
     This script only works in powershell 5.1 - Reason is the password generation which uses powershell 5.1 attributes.
 .EXAMPLE
     Run the script in the console like shown below:
-    New-CSVAccount -$CSVAccountname "CSV_TEST_T" -$CSVO365=$true -$Requester "TankH" -$CSVAccountPurpose "To give an example"
+    New-CSVAccount -$CSVAccountname "CSV_TEST_T" -$CSVO365=$true -$Requester "DoeJ" -$CSVAccountPurpose "To give an example"
     Remember to change the path of your console to the location where the script is placed in order to run it.
 #>
 
@@ -52,7 +52,7 @@ function New-CSVAccount(){
         $CSVAccountName,
         [Parameter(Mandatory=$false,HelpMessage="Enter custom SMTP adress")]
         [String]
-        $CSVAccountMail = $CSVAccountName + "@unive.nl",
+        $CSVAccountMail = $CSVAccountName + "@Domain.com",
         [Parameter(Mandatory=$false,HelpMessage="Does the CSV account need an O365 licence")]
         [switch]
         $CSVO365,
@@ -76,10 +76,10 @@ function New-CSVAccount(){
         $CSVAccountPurpose = $Description + " - " + $ChangeID,
         [Parameter(Mandatory=$false,HelpMessage="Enter custom RU location if needed.")]
         [String]
-        $Location = "OU=Serviceaccounts,OU=Accounts,OU=Algemeen,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl",
+        $Location = "" # OU location,
         [Parameter(Mandatory=$false,HelpMessage="Enter custom RU location if needed.")]
         [String]
-        $LocationO365 = "OU=ServiceaccountsOffice365Sync,OU=Accounts,OU=Algemeen,OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl"
+        $LocationO365 = "" # OU location with licence
     )
 
 
@@ -124,7 +124,7 @@ function New-CSVAccount(){
                     -Path $LocationO365 `
                     -AccountPassword (CreatePass) `
                     -AccountExpirationDate $AccountExpirationDate `
-                    -Server "Wes07pwadc01"`
+                    -Server "" # Domain controller`
                     -OtherAttributes @{"extensionattribute2"="O365_YES"; "extensionattribute6"="NPA"; "employeeID"=$EmployeeID}
                     Write-Verbose "$CSVAccountName`r`n$CSVAccountMail`r`n$Requester`r`n$CSVAccountPurpose`r`n$LocationO365"
                     Write-Host "$CSVAccountName`r`nAangemaakt op locatie:`r`n$LocationO365`r`nMet sterk tijdelijk wachtwoord.`r`nDescription: $CSVAccountPurpose`r`nManager: $Requester`r`nAccountExpirationDate: $AccountExpirationDate" -ForegroundColor Green
@@ -146,7 +146,7 @@ function New-CSVAccount(){
                     -Path $Location `
                     -AccountPassword (CreatePass) `
                     -AccountExpirationDate $AccountExpirationDate `
-                    -Server "Wes07pwadc01"`
+                    -Server "" # domain controller`
                     -OtherAttributes @{"extensionattribute2"="O365_NO"; "extensionattribute6"="NPA"; "employeeID"=$EmployeeID}
                     Write-Verbose "$CSVAccountName`r`n$CSVAccountMail`r`n$Requester`r`n$CSVAccountPurpose`r`n$Location"
                     Write-Host "$CSVAccountName`r`nAangemaakt op locatie:`r`n$Location`r`nMet sterk tijdelijk wachtwoord.`r`nDescription: $CSVAccountPurpose`r`nManager: $Requester`r`nAccountExpirationDate: $AccountExpirationDate" -ForegroundColor Green
@@ -162,16 +162,4 @@ function New-CSVAccount(){
     ### Change password after creation
 }
 
-#$CSVAccountsToCreate = @(
- #   "CSV_ICT_Planner"
-#)
-
- #foreach($i in $CSVAccountsToCreate){
-
-     #New-CSVAccount -CSVAccountName $i -Requester "MiddendorpW" -ChangeID "W25040616" -Description "Voor de e-mail vanuit RelyOn"
-#}
-
-
-#New-CSVAccount -CSVAccountName "CSV_ICT_Planner" -Requester "" -ChangeID "" -Description ""
-new-CSVAccount -CSVAccountName "CSV_CRM_TestLicen" -Requester "Timmermansd" -ChangeID "W25050599" -Description "Account t.b.v. het testen met nieuwe CRM account en licenties" -EmployeeID "10004594"
 
