@@ -84,6 +84,3 @@ function Get-ADuserSamAccountName() {
     return $NamesArray | Select-Object -Unique
 }
 
-$results = Get-ADuserSamAccountName -Names ""
-
-$results
