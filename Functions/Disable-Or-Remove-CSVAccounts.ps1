@@ -70,11 +70,4 @@ function Remove-CSVAccount {
 
 }
 
-$CSVAccounts = Get-Content -Path "E:\Share\Script\DixieW\Scripts\SourceFiles\DisableAndDeleteCSVAccounts.txt"
-# $CSVAccountProppertySet = $false
 
-#Disable CSV account from list in .csv file
-
-
-Disable-CSVAccount -Accounts $CSVAccounts -Desciption $CSVDescriptionMSG
-#Remove-CSVAccount -Accounts $CSVAccounts
