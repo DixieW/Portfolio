@@ -2,7 +2,6 @@
 .NOTES
     Creation Date   : 20-1-2025
     Author          : Dixie Wanner
-    Co-Author       : Munier Saliba; Ryan Nemeth
     Edit Date       : 06-02-2025
     Script version  : 1.0.5
 #>
@@ -10,8 +9,8 @@
 class SCCMClient {
 
     # Properties van het object
-    [string]$SiteCode = "UMS";
-    [string]$ManagementPoint = "CMSWAD2090P";
+    [string]$SiteCode = "" # sitecode;
+    [string]$ManagementPoint = "" # SCCM servername;
     [string]$Arguments = "/mp:$($this.ManagementPoint) SMSSITECODE=$($this.SiteCode)"
 
 
