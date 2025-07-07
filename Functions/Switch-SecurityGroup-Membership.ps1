@@ -5,11 +5,11 @@
         [Parameter(Mandatory)]
         [array]$Usernames,
         [Parameter()]
-        [string]$Server = "Wes07pwadc01",
+        [string]$Server = "" # domain controller,
         [Parameter()]
-        [string]$Group1 = "GL_Intune_Mobile_Users",
+        [string]$Group1 = "" # adgroup 1,
         [Parameter()]
-        [string]$Group2 = "GL_MAM-WE_Users"
+        [string]$Group2 = "" # adgroup 2
     )
    $Succes = $false
    foreach($User in $Usernames){
