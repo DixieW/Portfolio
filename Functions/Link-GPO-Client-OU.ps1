@@ -1,8 +1,5 @@
 ﻿########
 #
-#Copyright:     Free to use, please leave this header intact
-#Author:        Jasper Timmermans (OGD), Dixie Wanner (OGD)
-#Company:       OGD (http://www.ogd.nl)
 ##Purpose:      Link an existing Group Policy to Specified Organizational Units (using a filter)
 ########
 ########
@@ -11,8 +8,8 @@
 #Changelog:
 ########
 #V1.0: First draft
-<#v2.0: Added parameters 23-10-24 - Dixie Wanner
-        Cleaned up comments       - Dixie Wanner
+<#v2.0: Added parameters 23-10-24 
+        Cleaned up comments       
 #>
 #region Parameters
 function LinkOU() {
@@ -48,8 +45,8 @@ function LinkOU() {
     #endregion
 
     #region PREPERATION
-    $Domain = "intern.ubnet.nl"
-    $OUList = Get-ADOrganizationalUnit -SearchBase "OU=BeheerPartij5,OU=Productie,DC=intern,DC=ubnet,DC=nl" -filter * | Where-Object { $_.Distinguishedname -like $OUFilter }
+    $Domain = "" # domain
+    $OUList = Get-ADOrganizationalUnit -SearchBase "" -filter * | Where-Object { $_.Distinguishedname -like $OUFilter } # add OU searchbase
 
     #endregion
 
@@ -70,8 +67,8 @@ function LinkOU() {
 ##### Voorbeelden #####
 
 # Client links
-# LinkOU -GPOName "Test - WKS – Win10 – Disable Edge Autofill (1.0)" -OUFilterClient
+# LinkOU -GPOName "Great GPO Client Title" -OUFilterClient
 
 # User Links
-# LinkOU -GPOName "USR - Win10 - Browser Extensions (v1.2) Passwordstate" -OUFilterUser
+# LinkOU -GPOName "Great GPO User Title" -OUFilterUser
 
