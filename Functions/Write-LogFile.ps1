@@ -38,7 +38,7 @@
 #>
 
 
-function Write-LogFile {
+function Write-LogUpdate {
     param (
         [Parameter(mandatory, ParameterSetName = "IntuneScriptLog")]
         [Parameter(mandatory, ParameterSetName = "TempScriptLog")]
