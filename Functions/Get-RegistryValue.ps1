@@ -99,7 +99,7 @@ function Get-RegistryValue {
 
 }
 
-. \Share\Script\DixieW\Scripts\Functies\Test-Connection.ps1
+. \Functies\Test-Connection.ps1
 
 function DeviceStatus() {
     param (
