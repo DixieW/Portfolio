@@ -102,16 +102,16 @@ function Install-SCCMClient {
     Install or reinstall the SCCM client on a users device.
     This function connects to the SCCM server and executes the ccmsetup.exe to install a new client.
 .PARAMETER SiteCode
-    SiteCode has a default value "UMS". This code is needed when performing SCCM operations. You can manually change this if needed.
+    Enter Sitecode is needed when performing SCCM operations. You can manually change this if needed.
 .PARAMETER ManagementPoint
-    ManagementPoint has a default value of "CMSWAD2090P". This is our default SCCM server. You can manually change this if needed.
+    Enter SCCM server. You can manually change this if needed.
 .EXAMPLE
     This repairs the old installations.
     Install-SCCMClient()
     #>
     param (
-        [string]$SiteCode = "UMS",                   # The SCCM site code (e.g., 'ABC')
-        [string]$ManagementPoint = "CMSWAD2090P"    # The FQDN or IP of the Management Point (e.g., 'sccmserver.domain.com')
+        [string]$SiteCode = "",                   # The SCCM site code (e.g., 'ABC')
+        [string]$ManagementPoint = ""    # The FQDN or IP of the Management Point (e.g., 'sccmserver.domain.com')
     )
     $arguments = "/mp:$ManagementPoint SMSSITECODE=$SiteCode"
 
