@@ -15,5 +15,3 @@
     return $listOfNames
 }
 
-$result = Convert-ToGivenNameLastName -samAccountNames  WarD, TranT, BeimaM, NijhofW, HaringW, VeldR2
-$result
